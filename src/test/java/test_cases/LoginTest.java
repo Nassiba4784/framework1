@@ -9,6 +9,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.HomePage;
 
+import static base.BaseClass.logger;
+
 public class LoginTest {
     WebDriver driver;
     String validUsername = "Admin";
@@ -25,7 +27,8 @@ public class LoginTest {
 
     @Test
     public void validLogin(){
-        HomePage homePage = new HomePage(driver);
+
+        HomePage homePage = new HomePage();
         homePage.enterUsername("Admin");
         homePage.enterPassword("admin123");
         homePage.clicklogin();

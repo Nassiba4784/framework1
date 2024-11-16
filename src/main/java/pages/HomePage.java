@@ -1,5 +1,6 @@
 package pages;
 
+import base.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,8 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class HomePage {
-    WebDriver driver;
+public class HomePage extends BaseClass {
 
     @FindBy(name = "username")
     WebElement inputUsername;
@@ -18,21 +18,32 @@ public class HomePage {
     WebElement inputPassword;
     @FindBy(tagName = "button")
     WebElement loginButton;
+    @FindBy(xpath = "//label[@class='oxd-label oxd-input-field-required']")
+    WebElement requiredMsg;
 
-    public HomePage(WebDriver driver){
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+    public HomePage(){
+        PageFactory.initElements(driver,this);
     }
     public void enterUsername(String username){
-        WebDriverWait wait = new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.name("username")));
-        inputUsername.sendKeys(username);
+        typeText(inputUsername, username);
     }
     public void enterPassword(String password){
-        inputPassword.sendKeys(password);
+        typeText(inputPassword, password);
     }
     public void clicklogin(){
-        loginButton.click();
+        clickOnElement(loginButton);
+    }
+    public boolean requiredMsgDisplay(){
+        wait.until(ExpectedConditions.visibilityOf(requiredMsg));
+        return requiredMsg.isDisplayed();
+    }
+    public void dologin(String username, String password){
+        enterUsername(username);
+        enterPassword(password);
+        clicklogin();
+        
     }
 }
+
 

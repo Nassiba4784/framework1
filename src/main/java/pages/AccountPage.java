@@ -1,12 +1,11 @@
 package pages;
 
-import base.BaseClasses;
-import org.openqa.selenium.WebDriver;
+import base.BaseClass;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class AccountPage extends BaseClasses {
+public class AccountPage extends BaseClass {
 
     @FindBy(xpath = "//p[@class='oxd-userderopdown-name']")
     WebElement dropdown;
