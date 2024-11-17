@@ -3,6 +3,7 @@ package base;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
+import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -37,6 +38,7 @@ public class BaseClass {
             driver = new FirefoxDriver();
 
         }
+
         logger.getLogger(this.getClass());
         driver.get(url);
         driver.manage().window().maximize();
@@ -44,29 +46,31 @@ public class BaseClass {
     }
     @AfterMethod(alwaysRun = true)
     public void cleanUp(ITestResult testResult){
-       if (ITestResult.FAILURE == testResult.getStatus()){
-           takeScreenShot(testResult.getName());
-       }
+        if (ITestResult.FAILURE == testResult.getStatus()){
+            takeScreenShot(testResult.getName());
+        driver.close();
+        driver.quit();
+        }
     }
 
-public void typeText(WebElement element, String text){
+    public void typeText(WebElement element, String text){
         element.clear();
         element.sendKeys();
-}
+    }
     public void clickOnElement(WebElement element){
         element.click();
     }
-public String getInnerTextFromElement(WebElement element){
+    public String getInnerTextFromElement(WebElement element){
         return element.getText().trim();
-}
-public void hoverOverOnElement(WebElement element){
+    }
+    public void hoverOverOnElement(WebElement element){
         Actions actions = new Actions(driver);
         actions.moveToElement(element);
-}
-public void selectFromDropDownByVisibleText(WebElement element,String text){
-    Select select = new Select(element);
-    select.selectByVisibleText(text);
-}
+    }
+    public void selectFromDropDownByVisibleText(WebElement element,String text){
+        Select select = new Select(element);
+        select.selectByVisibleText(text);
+    }
 
     private void takeScreenShot(String testName) {
         TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
@@ -77,5 +81,6 @@ public void selectFromDropDownByVisibleText(WebElement element,String text){
         }catch (IOException exception){
             System.out.println(exception.getMessage());
         }
+
     }
 }
